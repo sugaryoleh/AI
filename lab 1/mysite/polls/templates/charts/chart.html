@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="tester" ></div>
+    <div>
+        {% if cur_lvl %}
+        <h3>Your level: {{ cur_lvl }}</h3>
+        <h3>{{ description }}</h3>
+        {% endif %}
+    </div>
+</body>
+<script>
+	var data = [
+      {
+        x: ['Novice', 'Advanced beginner', 'Competent', 'Proficient', 'Expert'],
+        y: {{ values }},
+        type: 'bar'
+      }
+    ];
+
+Plotly.newPlot('tester', data);
+</script>
+</html>

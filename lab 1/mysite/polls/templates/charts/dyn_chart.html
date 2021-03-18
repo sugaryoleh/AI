@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .centered {
+            height: 200px;
+            width: 400px;
+
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tester" ></div>
+
+    <h2><a href="http://127.0.0.1:8000/polls">Admin panel</a></h2>
+</body>
+<script>
+    function back(){
+
+    }
+    function generator(arr){
+        steps = []
+        let i = 1;
+        for (let item of arr){
+            steps.push("Question" + i.toString());
+            i = i+1;
+        }
+        return steps;
+    }
+	var data = [
+      {
+        x: generator({{values}}),
+        y: {{ values }},
+        type: 'bar'
+      }
+    ];
+
+Plotly.newPlot('tester', data);
+</script>
+</html>

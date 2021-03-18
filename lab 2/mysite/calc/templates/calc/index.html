@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        function get_data(){
+            $.ajax({
+                    url: 'data/',
+                    datatype: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        document.getElementById('data').innerHTML = data['data'];
+                    }
+                });
+        }
+        function get_charts(){
+            $.ajax({
+                    url: 'charts/',
+                    datatype: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        var chart_data = [
+                          {
+                            x: data['data']['values'],
+                            y: data['data']['calc_vals'],
+                            type: 'bar'
+                          }
+                        ];
+                        document.getElementById('data').innerHTML = "";
+                        Plotly.newPlot('data', chart_data);
+                    }
+                });
+
+        }
+        function get_info(){
+            $.ajax({
+                    url: 'info/',
+                    datatype: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        document.getElementById('data').innerHTML = data['data'];
+                    }
+                });
+
+        }
+    </script>
+</head>
+<body>
+    <div id="menu">
+        <table>
+            <tr>
+                <td><button onclick="get_data()">Data</button></td>
+                <td><button onclick="get_charts()">Charts</button></td>
+                <td><button onclick="get_info()">Info</button></td>
+                <td><a href="info/">Info</a></td>
+            </tr>
+        </table>
+    </div>
+    <div id="data">
+    </div>
+</body>
+</html>

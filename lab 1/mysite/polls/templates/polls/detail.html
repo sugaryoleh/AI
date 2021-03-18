@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        div {
+        height: 200px;
+        width: 400px;
+
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="{% url 'polls:vote' poll_id question_id %}" method="post">
+            {% csrf_token %}
+            <ul class="list-group">
+                <h3>{{ question.question_text }}</h3>
+                {% for choice in question.choices %}
+                    <li class="list-group-item"><input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br></li>
+                {% endfor %}
+            </ul>
+            <input type="submit" value="Vote" class="btn btn-primary">
+        </form>
+    </div>
+</body>
+</html>

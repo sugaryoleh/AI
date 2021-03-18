@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        div {
+        height: 200px;
+        width: 400px;
+
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        <form method="post" action="{% url 'registration' %}" class="form-group">
+            {% csrf_token %}
+            {% if form.errors %}
+            <p>Errors in the form occured</p>
+            {% endif %}
+            {{ form }}
+            <input type="submit" value="Register" class="btn btn-primary">
+        </form>
+    </div>
+</body>
+</html>
