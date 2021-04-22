@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compalint</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div style="width:1600px; margin:0 auto;">
+        <form method="post" action="">
+        {% csrf_token %}
+            <h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
+        {% for symptom in symptoms %}
+            <input type="checkbox" name="{{ symptom }}" id="{{ symptom }}" value="{{ symptom }}">
+            <label for="{{ symptom }}">{{ symptom }}</label><br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

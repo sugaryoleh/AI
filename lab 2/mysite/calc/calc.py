@@ -40,8 +40,11 @@ def calc_appendix(matrix, dim):
     return appendix
 
 def get_values():
-    values = [170, 175, 180, 185, 190, 195]
+    values = [50, 60, 70, 80, 90, 100]
     return values
+
+def get_appendix_values():
+    return [1, 2, 'M(X)']
 
 def get_rates():
     rates = (9., 7., 5., 3., 1.)
@@ -57,7 +60,7 @@ def get_table():
     for i, row in enumerate(matrix):
         for j, el in enumerate(row):
             matrix[i][j] = round(el, 2)
-
+    for row in matrix:
         print(row)
     return matrix
 

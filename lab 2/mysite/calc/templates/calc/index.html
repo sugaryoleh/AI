@@ -27,7 +27,7 @@
                           {
                             x: data['data']['values'],
                             y: data['data']['calc_vals'],
-                            type: 'bar'
+                            type: 'scatter'
                           }
                         ];
                         document.getElementById('data').innerHTML = "";
@@ -56,7 +56,6 @@
                 <td><button onclick="get_data()">Data</button></td>
                 <td><button onclick="get_charts()">Charts</button></td>
                 <td><button onclick="get_info()">Info</button></td>
-                <td><a href="info/">Info</a></td>
             </tr>
         </table>
     </div>

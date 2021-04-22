@@ -19,7 +19,7 @@ def registration(request):
             return redirect('polls/')
     else:
         form = UserCreationForm()
-        context = {
-        'form':form
-        }
+    context = {
+        'form': form
+    }
     return render(request, 'registration/registration.html', context)

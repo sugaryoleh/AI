@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import FileResponse, Http404
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
-from calc.calc import get_table, get_values
+from calc.calc import get_table, get_values, get_appendix_values
 
 
 def index(request):
@@ -13,21 +13,24 @@ def index(request):
 
 def data(request):
     table = get_table()
+    capture = "<h2>Study rating</h2>"
     mytable = "<table class='table table-striped'>"
     mytable+= "<thead><tr>"
     values = get_values()
+    values_with_appendix = get_values()+get_appendix_values()
     mytable += "<th scope='col'></th>"
     for value in values:
         mytable += "<th scope='col'>" + str(value) + "</th>"
     mytable+= "</tr></thead>"
     mytable += "<tbody"
-    for val, row in zip(values, table):
+    for val, row in zip(values_with_appendix, table):
         mytable += "<tr><th scope='row'>" + str(val) + "</th>"
         for cell in row:
             mytable += "<td>" + str(cell) + "</td>"
         mytable += "</tr>"
     mytable += "</tbody"
     mytable += "</table>"
+    mytable = capture+mytable
     return JsonResponse({'data':mytable})
 
 def charts(request):

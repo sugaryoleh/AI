@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div style="width:1600px; margin:0 auto;">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="row">Disease</th>
+                    <th scope="row" >Customer</th>
+                    <th scope="row">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in dh %}
+                <tr>
+                    <td>{{d.disease.name}}</td>
+                    <td>{{d.customer.first_name}} {{d.customer.last_name}}</td>
+                    <td>{{d.date}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

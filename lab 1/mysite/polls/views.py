@@ -116,30 +116,11 @@ def vote(request, poll_id, question_id):
 
     poll = Poll.objects.get(pk=poll_id)
     question = get_question(poll.question_set.all(), question_id)
-    print(question)
-    # question = get_object_or_404(Question, pk=question_id)
     selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    print(selected_choice.choice_val)
     values.append(selected_choice.choice_val)
     steps.append('Question'+str(cnt))
     cnt+=1
     update_res(request.user, poll_id, selected_choice.choice_val)
-    # try:
-    #     selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    #     update_res(request.user, poll_id, selected_choice.choice_val)
-    # except (KeyError, Choice.DoesNotExist):
-    #     # Redisplay the question voting form.
-    #     return render(request, 'polls/detail.html', {
-    #         'question': question,
-    #         'error_message': "You didn't select a choice.",
-    #     })
-    # else:
-    #     selected_choice.votes += 1
-    #     selected_choice.save()
-    #     # Always return an HttpResponseRedirect after successfully dealing
-    #     # with POST data. This prevents data from being posted twice if a
-    #     # user hits the Back button.
-    #     return HttpResponseRedirect(reverse('polls:results', args=(poll_id, question.id,)))
     return HttpResponseRedirect(reverse('polls:detail', args=(poll_id, question_id+1,)))
 
 @login_required

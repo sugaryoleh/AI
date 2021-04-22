@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+
+        function my_max(array) {
+            max = array[0];
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] > max) {
+                    max = array[i];
+                }
+            }
+            return max;
+        }
+
+        function calculate_min_max_es(ab_s, ab_c) {
+            cmp_matrix = [];
+            var ls = ab_s[0].length;
+            var lc = ab_c[0].length;
+            for (var i = 0; i < ls; i++) {
+                row = [];
+                for (var j = 0; j < lc; j++) {
+                    temp = [];
+                    for (var k = 0; k < ab_s.length; k++) {
+                        temp.push(Math.min(ab_s[k][i], ab_c[k][j]));
+
+                    }
+                    row.push(my_max(temp));
+                }
+                cmp_matrix.push(row);
+            }
+            return cmp_matrix;
+        }
+
+        function extract_candidates() {
+            var table = document.getElementById("ab_c_table");
+            var r = [];
+            var row = table.rows[0];
+            for (var j = 1, col; col = row.cells[j]; j++) {
+                r.push(col.innerHTML);
+            }
+            return r;
+        }
+
+        function extract_specialities() {
+            var table = document.getElementById("ab_s_table");
+            var r = [];
+            var row = table.rows[0];
+            for (var j = 1, col; col = row.cells[j]; j++) {
+                r.push(col.innerHTML);
+            }
+            return r;
+        }
+
+        function print_matrix(matrix) {
+            var specialities = extract_specialities();
+            var candidates = extract_candidates();
+            head = "<tr><th></th>";
+            for (var i = 0; i < candidates.length; i++) {
+                head += "<th scope='col'>" + candidates[i] + "</th>";
+            }
+            head += "</tr>";
+            instance = "";
+            for (var i = 0; i < specialities.length; i++) {
+                instance += "<tr>";
+                instance += "<th scope='col'>" + specialities[i] + "</th>";
+                for (var j = 0; j < candidates.length; j++) {
+                    instance += "<td scope='col'>" + matrix[i][j] + "</td>";
+                }
+                instance += "</th>";
+            }
+            var table = document.getElementById("res_table");
+            table.innerHTML = head + instance;
+        }
+
+        function transp(matrix) {
+            new_matrix = [];
+            for (var i = 0; i < matrix[0].length; i++){
+                tmp = [];
+                for (var j = 0; j < matrix.length; j++){
+                    tmp.push(matrix[j][i]);
+                }
+                new_matrix.push(tmp);
+            }
+            return new_matrix;
+        }
+
+        function show_plot(matrix) {
+            specialities = extract_specialities();
+            candidates = extract_candidates();
+            console.log(candidates);
+            console.log(matrix);
+            data = [];
+            for (var i = 0; i < specialities.length; i++) {
+                data.push({
+                    x:candidates,
+                    y:matrix[i],
+                    name:specialities[i],
+                    type: 'bar'
+                });
+            }
+
+            var layout = {barmode: 'group'};
+            Plotly.newPlot('charts', data, layout);
+        }
+
+        function get_min_max_matrix()   {
+            ab_s = [];
+            var table = document.getElementById("ab_s_table");
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                r = [];
+                for (var j = 1, col; col = row.cells[j]; j++) {
+                     r.push(col.firstChild.value);
+                }
+                ab_s.push(r);
+            }
+            ab_c = [];
+            var table = document.getElementById("ab_c_table");
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                r = [];
+                for (var j = 1, col; col = row.cells[j]; j++) {
+                     r.push(col.firstChild.value);
+                }
+                ab_c.push(r);
+            }
+            matrix = calculate_min_max_es(ab_s, ab_c);
+            print_matrix(matrix);
+            show_plot(matrix);
+        }
+    </script>
+</head>
+<body>
+
+    <table id="ab_s_table" class="table">
+        <tr>
+            <th></th>
+            {% for speciality in specialities %}
+                <th scope="col">{{ speciality }}</th>
+            {% endfor %}
+        </tr>
+        {% for key, item in ab_s_table.items %}
+            <tr>
+                <th scope="col">{{ key }}</th>
+                {% for cell in item %}
+                    <td><input value="{{ cell }}"/></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <table id="ab_c_table" class="table">
+        <tr>
+            <th></th>
+            {% for candidate in candidates %}
+                <th scope="col">{{ candidate }}</th>
+            {% endfor %}
+        </tr>
+        {% for key, item in ab_c_table.items %}
+            <tr>
+                <th scope="col">{{ key }}</th>
+                {% for cell in item %}
+                    <td><input value="{{ cell }}"/></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <button style="margin: 3%; width: 94%; padding: 10px;" type="button" class="btn btn-info" onclick="get_min_max_matrix()">Calculate</button>
+    <table id="res_table" class="table">
+    </table>
+    <div id="charts" style="width:1500px; margin:0 auto;"></div>
+</body>
+</html>
